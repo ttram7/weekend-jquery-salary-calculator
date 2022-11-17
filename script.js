@@ -1,9 +1,11 @@
 let employees = [];
 
+
 $(document).ready(readyNow);
 
 function readyNow() {
     $('#submit-btn').on('click',addEmployee);
+    $('#product-table').on('click','#remove-btn',removeEmployee)
 }
 
 function addEmployee() {
@@ -24,6 +26,7 @@ function addEmployee() {
     $('#employee-title').val(''),
     $('#annual-salary').val('')
     console.log(employees)
+    calculateMonthlyCost();
     render();
 }
 
@@ -38,11 +41,21 @@ function render() {
             <td>${employee.lastName} </td>
             <td>${employee.id}</td> 
             <td>${employee.title}</td> 
-            <td>${employee.annualSalary}</td> 
+            <td>$${employee.annualSalary}</td>
+            <td><button id="remove-btn">Remove</button></td>
         </tr>`);
-        
-    }
-    //<tr> doesn't show up
+    }    
+}
 
+function removeEmployee() {
+    $(this).parent().parent().remove();
+}
+
+function calculateMonthlyCost() {
+    let totalMonthlyCost = 0;
+    for (employee of employees) {
+        totalMonthlyCost += Math.round((Number(employee.annualSalary) / 12));
+    }
+    $('#totalMonthlyOut').text(totalMonthlyCost.toFixed(2));
     
 }
