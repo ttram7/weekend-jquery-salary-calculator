@@ -29,12 +29,20 @@ function addEmployee() {
 
 function render() {
     console.log('in add render')
-    let el = $('#employee-list')
+    let el = $('#product-table')
     el.empty();
     for (employee of employees) {
-        el.append(`${employee.firstName} ${employee.lastName} ${employee.id} ${employee.title} ${employee.annualSalary} <br>`);
+        el.append(`
+        <tr>
+            <td>${employee.firstName}</td> 
+            <td>${employee.lastName} </td>
+            <td>${employee.id}</td> 
+            <td>${employee.title}</td> 
+            <td>${employee.annualSalary}</td> 
+        </tr>`);
         
     }
+    //<tr> doesn't show up
 
     
 }
