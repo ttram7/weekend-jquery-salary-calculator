@@ -1,11 +1,11 @@
 let employees = [];
-
+let totalMonthlyCost = 0;
 
 $(document).ready(readyNow);
 
 function readyNow() {
     $('#submit-btn').on('click',addEmployee);
-    $('#product-table').on('click','#remove-btn',removeEmployee)
+    $('#product-table').on('click','#remove-btn',removeEmployee);
 }
 
 function addEmployee() {
@@ -49,13 +49,22 @@ function render() {
 
 function removeEmployee() {
     $(this).parent().parent().remove();
+    // totalMonthlyCost -= Math.round((Number(this.annualSalary) / 12));
+    // console.log(totalMonthlyCost)
+
 }
 
 function calculateMonthlyCost() {
-    let totalMonthlyCost = 0;
+    totalMonthlyCost = 0;
     for (employee of employees) {
         totalMonthlyCost += Math.round((Number(employee.annualSalary) / 12));
     }
-    $('#totalMonthlyOut').text(totalMonthlyCost.toFixed(2));
-    
+    $('#monthlyCost').text(totalMonthlyCost.toFixed(2));
+    changeColor();
+}
+
+function changeColor() {
+    if (totalMonthlyCost > 20000) {
+        $('#totalMonthlyOut').addClass('prime-red');
+    }
 }
