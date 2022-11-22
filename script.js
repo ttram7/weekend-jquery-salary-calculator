@@ -8,8 +8,9 @@ function readyNow() {
     $('#product-table').on('click','#remove-btn',removeEmployee);
 }
 
+//takes input values and stores as newEmployee properties
+//object added to employees array
 function addEmployee() {
-    console.log('in addNewEmployee')
     let newEmployee = {
         firstName: $('#first-name').val(),
         lastName: $('#last-name').val(),
@@ -30,8 +31,8 @@ function addEmployee() {
     render();
 }
 
+//appends properties to table for each object in array
 function render() {
-    console.log('in add render')
     let el = $('#product-table')
     el.empty();
     for (employee of employees) {
@@ -42,18 +43,26 @@ function render() {
             <td>${employee.id}</td> 
             <td>${employee.title}</td> 
             <td>$${employee.annualSalary}</td>
-            <td><button id="remove-btn">Remove</button></td>
+            <td><button id="remove-btn" data-salary="${employee.annualSalary}">Remove</button></td>
         </tr>`);
     }    
 }
 
+//removes employee from table
+//removed employee's monthly salary is subtracted from totalMonthlyCost
 function removeEmployee() {
+    let rowNum = this.parentNode.parentNode.rowIndex;
     $(this).parent().parent().remove();
-    // totalMonthlyCost -= Math.round((Number(this.annualSalary) / 12));
-    // console.log(totalMonthlyCost)
+    employees.splice(rowNum - 1, 1);
+
+    let removedMonthlySalary = Math.round(($(this).data('salary'))/12);
+    totalMonthlyCost -= removedMonthlySalary;
+    $('#monthlyCost').text(totalMonthlyCost.toFixed(2));
+    changeColor();
 
 }
 
+//adds each employee's monthly salary and total is outputted to DOM
 function calculateMonthlyCost() {
     totalMonthlyCost = 0;
     for (employee of employees) {
@@ -63,8 +72,13 @@ function calculateMonthlyCost() {
     changeColor();
 }
 
+//changes background color to red if totalMonthCost exceeds $20,000
+//removes css class if it does not exceed $20,000
 function changeColor() {
     if (totalMonthlyCost > 20000) {
         $('#totalMonthlyOut').addClass('prime-red');
+    }
+    else {
+        $('#totalMonthlyOut').removeClass('prime-red'); 
     }
 }
