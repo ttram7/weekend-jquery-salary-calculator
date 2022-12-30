@@ -54,11 +54,7 @@ function removeEmployee() {
     let rowNum = this.parentNode.parentNode.rowIndex;
     $(this).parent().parent().remove();
     employees.splice(rowNum - 1, 1);
-
-    let removedMonthlySalary = Math.round(($(this).data('salary'))/12);
-    totalMonthlyCost -= removedMonthlySalary;
-    $('#monthlyCost').text(totalMonthlyCost.toFixed(2));
-    changeColor();
+    calculateMonthlyCost();
 
 }
 
